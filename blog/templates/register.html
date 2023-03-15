@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <form action="" method="get">
+    {{ form.csrf_token }}
+    {% if form.csrf_token.errors %}
+    <div class="warning">You have submitted an invalid CSRF token</div>
+    {% endif %}
+    <div>{{ form.username.label(class='form-control-label') }} {{form.username(class='form-control')}}</div>
+    <div>{{ form.email.label(class='form-control-label')  }} {{form.email(class='form-control')}}</div>
+    <div>{{ form.password.label(class='form-control-label')  }} {{form.password(class='form-control')}}</div>
+    <div>{{ form.confirm_password.label(class='form-control-label')  }} {{form.confirm_password(class='form-control')}}</div>
+        <br>
+<!--    <div>{{ form.submit  }}</div>-->
+        <input type="submit" value="Register" class="btn btn-info">
+    </form>
+{% endblock content %}
