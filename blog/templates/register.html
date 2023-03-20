@@ -1,18 +1,65 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
-    <form action="" method="POST">
-    {{ form.csrf_token }}
-    {% if form.csrf_token.errors %}
-    <div class="warning">You have submitted an invalid CSRF token</div>
-    {% endif %}
-    {{ form.username.label(class='form-control-label') }} {{form.username(class='form-control')}}
-    {{ form.email.label(class='form-control-label')  }} {{form.email(class='form-control')}}
-    {{ form.password.label(class='form-control-label')  }} {{form.password(class='form-control')}}
-    {{ form.confirm_password.label(class='form-control-label')  }} {{form.confirm_password(class='form-control')}}
-<!--    <div>{{ form.submit  }}</div>-->
-        <br>
-        <input type="submit" value="Register" class="btn btn-info">
-    </form>
+{% include 'inc/form_errors.html' %}
+<h2 style="text-align: justify; color: blue;">Create an Account</h2>
+<br>
+<form action="" method="post">
+   {{ form.hidden_tag() }}
+   <div>
+      {{ form.username(placeholder="username",
+      style='width: 50%;
+      font-weight: bold;
+      padding: 12px 20px ;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box') }}
+   </div>
+   <br>
+   <div>
+      {{ form.email(placeholder="email",
+      style='width: 50%;
+      font-weight: bold;
+      padding: 12px 20px ;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box') }}
+   </div>
+   <br>
+   <div>
+      {{ form.password(placeholder="password",
+      style='width: 50%;
+      font-weight: bold;
+      padding: 12px 20px ;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box') }}
+   </div>
+   <br>
+   <div>
+      {{ form.confirm_password(placeholder="Confirm password",
+      style='width: 50%;
+      font-weight: bold;
+      padding: 12px 20px ;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box') }}
+   </div>
+   <br>
+   <div>{{ form.submit(
+      style ='background-color: #4CAF50;
+      color: white;
+      width: 50%;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 5px') }}
+   </div>
+</form>
+<p></p>
+<h4 style = "color: blue; margin-left:10px;"><a href="{{ url_for('login') }}">Already have an account?</a></h4>
 {% endblock content %}
