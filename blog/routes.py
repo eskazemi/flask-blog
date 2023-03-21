@@ -8,6 +8,7 @@ from flask import (
     redirect,
     url_for,
     flash,
+    request,
 )
 from blog.forms import (
     RegistrationForm,
@@ -16,6 +17,12 @@ from blog.forms import (
 from blog.models import (
     User,
     Post,
+)
+from flask_login import (
+    login_user,
+    current_user,
+    logout_user,
+    login_required
 )
 
 
@@ -38,12 +45,27 @@ def register():
     return render_template("register.html", form=form)
 
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("home"))
     form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            flash("you logged in successfully", category="success")
+            next_arg = request.args.get("next")
+            return redirect(next_arg if next_arg else url_for('home'))
+        else:
+            flash("Email or Password is Wrong", category="danger")
+
     return render_template("login.html", form=form)
 
 
 @app.route("/logout")
+@login_required
 def logout():
+    logout_user()
+    flash("you logged out successfully", category="success")
     return render_template("home.html")
