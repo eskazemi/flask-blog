@@ -1,0 +1,45 @@
+{% extends  'base.html' %}
+
+
+{% block content %}
+  <h3>{{ current_user.username}}</h3>
+  <p>{{ current_user.email}}</p>
+
+{% include 'inc/form_errors.html' %}
+<h2 style="text-align: justify; color: blue;">Update Username or Email</h2>
+<br>
+<form action="" method="post">
+   {{ form.hidden_tag() }}
+   <div>
+      {{ form.username(placeholder="username",
+      style='width: 50%;
+      font-weight: bold;
+      padding: 12px 20px ;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box') }}
+   </div>
+   <br>
+   <div>
+      {{ form.email(placeholder="email",
+      style='width: 50%;
+      font-weight: bold;
+      padding: 12px 20px ;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box') }}
+   </div>
+   <br>
+   <div>{{ form.submit(
+      style ='background-color: #4CAF54;
+      color: white;
+      width: 50%;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 5px') }}
+   </div>
+</form>
+{% endblock %}

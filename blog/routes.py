@@ -13,6 +13,7 @@ from flask import (
 from blog.forms import (
     RegistrationForm,
     LoginForm,
+    UpdateProfileForm,
 )
 from blog.models import (
     User,
@@ -69,3 +70,17 @@ def logout():
     logout_user()
     flash("you logged out successfully", category="success")
     return render_template("home.html")
+
+
+@app.route("/profile", methods=["GET", "POST"])
+@login_required
+def profile():
+    form = UpdateProfileForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash("Update Successfully", category="info")
+    form.username.data = current_user.username
+    form.email.data = current_user.email
+    return render_template('profile.html', form=form)
