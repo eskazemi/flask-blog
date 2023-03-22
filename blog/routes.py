@@ -9,6 +9,7 @@ from flask import (
     url_for,
     flash,
     request,
+    abort
 )
 from blog.forms import (
     RegistrationForm,
@@ -106,3 +107,17 @@ def new_post():
 def detail_post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template("detail_post.html", post=post)
+
+
+@app.route('/post/delete/<int:post_id>')
+@login_required
+def delete(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.auther != current_user:
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    flash("Delete Post Successfully", category="success")
+    return redirect(url_for("home"))
+
+
