@@ -14,6 +14,7 @@ from blog.forms import (
     RegistrationForm,
     LoginForm,
     UpdateProfileForm,
+    PostForm,
 )
 from blog.models import (
     User,
@@ -84,3 +85,16 @@ def profile():
     form.username.data = current_user.username
     form.email.data = current_user.email
     return render_template('profile.html', form=form)
+
+
+@app.route("/post/new", methods=["POST", "GET"])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, auther=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash("Post created successfully", category="success")
+        return redirect(url_for('home'))
+    return render_template("create_post.html", form=form)

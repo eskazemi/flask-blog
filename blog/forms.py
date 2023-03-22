@@ -70,3 +70,10 @@ class UpdateProfileForm(FlaskForm):
             if user:
                 raise ValidationError("This email already exists")
 
+
+class PostForm(FlaskForm):
+    title = StringField('Title',
+                        validators=[DataRequired(),
+                                    Length(min=4, max=30)])
+    content = TextAreaField("Content" , validators=[DataRequired()])
+    submit = SubmitField('Create')

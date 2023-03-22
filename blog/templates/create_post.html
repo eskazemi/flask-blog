@@ -1,0 +1,47 @@
+{%  extends 'base.html' %}
+
+{% block content %}
+{% include 'inc/form_errors.html' %}
+<h2 style="text-align: justify; color: blue;">Create Post </h2>
+<br>
+<form action="" method="post">
+   {{ form.hidden_tag() }}
+   {{ form.csrf_token }}
+    {% if form.csrf_token.errors %}
+    <div class="warning">You have submitted an invalid CSRF token</div>
+    {% endif %}
+   <br>
+   <div>
+      {{ form.title(placeholder="title",
+      style='width: 50%;
+      font-weight: bold;
+      padding: 12px 20px ;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box') }}
+   </div>
+   <br>
+   <div>
+      {{ form.content(placeholder="content",
+      style='width: 50%;
+      font-weight: bold;
+      padding: 12px 20px ;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box') }}
+   </div>
+   <br>
+   <div>{{ form.submit(
+      style ='background-color: #4CAF50;
+      color: white;
+      width: 50%;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 5px') }}
+   </div>
+</form>
+
+{% endblock %}
