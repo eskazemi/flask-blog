@@ -10,7 +10,7 @@
     {% endfor %}
 {% endif %}
 
-{% if form.password.errors %}
+{% if form.password and form.password.errors %}
     {% for error in form.password.errors %}
         <p class="alert alert-danger">{{ error }}</p>
     {% endfor %}
