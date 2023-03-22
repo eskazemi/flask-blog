@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <h3 class="mb=3"> {{post.title}}</h3>
+  <p>{{ post.created_at.strftime("%y:%m:%s")}} </p>
+  <br><hr/>
+  <p>{{ post.content}}</p>
+  <small>{{ post.auther.username}}</small>
+{% endblock %}

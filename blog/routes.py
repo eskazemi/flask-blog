@@ -30,7 +30,8 @@ from flask_login import (
 
 @app.route("/", methods=["GET"])
 def home():
-    return render_template('home.html')
+    posts = Post.query.all()
+    return render_template('home.html', posts=posts)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -98,3 +99,10 @@ def new_post():
         flash("Post created successfully", category="success")
         return redirect(url_for('home'))
     return render_template("create_post.html", form=form)
+
+
+@app.route('/post/<int:post_id>')
+@login_required
+def detail_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template("detail_post.html", post=post)
