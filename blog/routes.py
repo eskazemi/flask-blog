@@ -105,7 +105,9 @@ def new_post():
 @app.route('/post/<int:post_id>')
 @login_required
 def detail_post(post_id):
-    post = Post.query.get_or_404(post_id)
+    post = Post.query.get(post_id)
+    if not post:
+        return render_template("404.html")
     return render_template("detail_post.html", post=post)
 
 
@@ -119,5 +121,27 @@ def delete(post_id):
     db.session.commit()
     flash("Delete Post Successfully", category="success")
     return redirect(url_for("home"))
+
+
+@app.route('/post/update/<int:post_id>', methods=["GET", "POST"])
+@login_required
+def update(post_id):
+    post = Post.query.get(post_id)
+    if not post:
+        return render_template("404.html")
+    if post.auther != current_user:
+        abort(403)
+    form = PostForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        db.session.commit()
+        flash("Update Post Successfully", category="info")
+        return redirect(url_for("detail_post", post_id=post.id))
+    if request.method == "GET":
+        form.title.data = post.title
+        form.content.data = post.content
+    return render_template('update_post.html', form=form)
+
 
 
